@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  client:
+    container_name: art-coffee-thingy-client-dev
+    build:
+      context: .
+      dockerfile: dockerfile.dev
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    command: pnpm run dev
+    stdin_open: true
+    tty: true
+
+networks:
+  default:
+    name: art-coffee
