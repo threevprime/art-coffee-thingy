@@ -11,7 +11,7 @@ import { Coffee, Gift, Award, CreditCard, Ticket, ShoppingBag } from "lucide-rea
 export default function BeansPage() {
   const [points, setPoints] = useState(350)
   const [selectedReward, setSelectedReward] = useState<string | null>(null)
-
+  //test
   const rewards = [
     {
       id: "free-coffee",
