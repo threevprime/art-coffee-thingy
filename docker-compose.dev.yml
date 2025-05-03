@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   client:
-    container_name: art-coffee-thingy-client-dev
+    container_name: art-coffee-thingy-client-dev-1
     build:
       context: .
       dockerfile: dockerfile.dev
@@ -20,4 +20,4 @@ services:
 
 networks:
   default:
-    name: art-coffee
+    name: art-coffee-1
