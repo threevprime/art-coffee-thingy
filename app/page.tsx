@@ -510,7 +510,7 @@ export default function Home() {
                             asChild
                             size="lg"
                             variant="outline"
-                            className="border-dark-green text-dark-green hover:bg-dark-green/10"
+                            className="border-dark-green text-warm-beige hover:bg-dark-green/10"
                         >
                             <Link href="/create">Krijo Kafenë Tënde</Link>
                         </Button>
