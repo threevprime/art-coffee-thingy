@@ -87,7 +87,7 @@ export default function MenuPage() {
                                                     {product.name}
                                                 </h3>
                                                 <span className="font-medium text-warm-beige">
-                                                    {product.price}
+                                                    {product.price} Lekë
                                                 </span>
                                             </div>
                                             <p className="text-sm text-muted-foreground mb-3">
