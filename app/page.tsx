@@ -15,6 +15,8 @@ import {
 } from "lucide-react";
 import Logo from "@/components/logo";
 
+// Nyan
+
 export default function Home() {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isVisible, setIsVisible] = useState(false);
