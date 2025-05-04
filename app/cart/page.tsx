@@ -15,6 +15,7 @@ import {
     getCartItems,
     removeFromCart,
 } from "@/utils/CartManagement";
+import { addPoints } from "@/utils/PointsManagement";
 import { Minus, Plus, Trash2, X, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -161,7 +162,12 @@ export default function CartPage() {
                                     <Input placeholder="Kodi i kuponit" />
                                     <Button variant="outline">Apliko</Button>
                                 </div>
-                                <Button className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90">
+                                <Button
+                                    className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90"
+                                    onClick={() => {
+                                        addPoints(Math.floor(total / 10));
+                                    }}
+                                >
                                     Shko te Pagesa
                                 </Button>
                             </div>
