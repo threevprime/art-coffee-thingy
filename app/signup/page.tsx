@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import supabase from '@/lib/supabase';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -10,51 +10,46 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import Link from 'next/link';
 import { Loader2 } from 'lucide-react';
 
-export default function LoginPage() {
+export default function SignUpPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
 
-  useEffect(() => {
-    const checkSession = async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session) {
-          const redirectTo = searchParams.get('redirectedFrom') || '/';
-          router.push(redirectTo);
-        }
-      } catch (error) {
-        console.error('Error checking session:', error);
-      }
-    };
-    checkSession();
-  }, [router, searchParams]);
-
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setSuccess('');
     setIsLoading(true);
 
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
       });
 
       if (error) {
         setError(error.message);
       } else {
-        setSuccess('Login successful!');
-        const redirectTo = searchParams.get('redirectedFrom') || '/';
-        router.push(redirectTo);
+        setSuccess('Sign up successful! Please check your email for verification.');
+        setTimeout(() => {
+          router.push('/login');
+        }, 3000);
       }
     } catch (err) {
-      console.error('Login error:', err);
+      console.error('Sign up error:', err);
       setError('An unexpected error occurred.');
     } finally {
       setIsLoading(false);
@@ -65,12 +60,12 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
+          <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
           <CardDescription>
-            Enter your email and password to sign in to your account
+            Enter your email and password to create your account
           </CardDescription>
         </CardHeader>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleSignUp}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
@@ -90,6 +85,16 @@ export default function LoginPage() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
             </div>
@@ -116,16 +121,16 @@ export default function LoginPage() {
                   Please wait
                 </>
               ) : (
-                'Sign in'
+                'Sign up'
               )}
             </Button>
             <div className="text-center text-sm">
-              Don't have an account?{' '}
+              Already have an account?{' '}
               <Link
-                href="/signup"
+                href="/login"
                 className="text-primary hover:underline"
               >
-                Sign up
+                Sign in
               </Link>
             </div>
           </CardFooter>
@@ -133,4 +138,4 @@ export default function LoginPage() {
       </Card>
     </div>
   );
-}
+} 
