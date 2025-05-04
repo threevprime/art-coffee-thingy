@@ -16,6 +16,10 @@ export interface CustomProduct {
 
 export interface ProductCartInfo {
     id: string;
+    name: string;
+    description: string;
+    price: number;
     quantity: number;
+    image: string;
     isCustom: boolean;
 }

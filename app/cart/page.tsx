@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -8,29 +10,17 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import {
+    clearCart,
+    getCartItems,
+    removeFromCart,
+} from "@/utils/CartManagement";
 import { Minus, Plus, Trash2, X, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function CartPage() {
-    const cartItems = [
-        {
-            id: 1,
-            name: "Cappuccino",
-            description: "Mesatar, Qumësht i zakonshëm",
-            price: 220,
-            quantity: 1,
-            image: "/placeholder.svg?height=200&width=200",
-        },
-        {
-            id: 2,
-            name: "Croissant me Çokollatë",
-            description: "I freskët",
-            price: 200,
-            quantity: 2,
-            image: "/placeholder.svg?height=200&width=200",
-        },
-    ];
+    const cartItems = getCartItems();
 
     const subtotal = cartItems.reduce(
         (total, item) => total + item.price * item.quantity,
@@ -70,6 +60,9 @@ export default function CartPage() {
                                                     variant="ghost"
                                                     size="icon"
                                                     className="h-8 w-8 text-muted-foreground"
+                                                    onClick={() => {
+                                                        removeFromCart(item);
+                                                    }}
                                                 >
                                                     <X className="h-4 w-4" />
                                                 </Button>
@@ -109,6 +102,9 @@ export default function CartPage() {
                             <Button
                                 variant="outline"
                                 className="w-full sm:w-auto"
+                                onClick={() => {
+                                    clearCart();
+                                }}
                             >
                                 <Trash2 className="h-4 w-4 mr-2" /> Pastro
                                 Shportën

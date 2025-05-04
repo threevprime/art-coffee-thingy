@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -6,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Plus, Search } from "lucide-react";
 import Image from "next/image";
 import { categories, products } from "@/utils/data/menu";
+import { addToCart } from "@/utils/CartManagement";
 
 export default function MenuPage() {
     return (
@@ -110,6 +113,18 @@ export default function MenuPage() {
                                                 <Button
                                                     size="sm"
                                                     className="bg-secondary text-secondary-foreground hover:bg-secondary/90"
+                                                    onClick={() =>
+                                                        addToCart({
+                                                            id: product.id,
+                                                            name: product.name,
+                                                            description:
+                                                                product.description,
+                                                            price: product.price,
+                                                            quantity: 1,
+                                                            image: product.image,
+                                                            isCustom: false,
+                                                        })
+                                                    }
                                                 >
                                                     <Plus className="h-4 w-4 mr-1" />{" "}
                                                     Shto

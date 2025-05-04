@@ -12,6 +12,26 @@ export function removeFromCart(product: ProductCartInfo) {
     localStorage.setItem("cart", JSON.stringify(updatedCart));
 }
 
+export function changeQuantity(product: ProductCartInfo, quantity: number) {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const updatedCart = cart.map((item: any) => {
+        if (item.id === product.id) {
+            return { ...item, quantity };
+        }
+        return item;
+    });
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+}
+
+export function getCartItems(): ProductCartInfo[] {
+    return JSON.parse(localStorage.getItem("cart") || "[]");
+}
+
 export function clearCart() {
     localStorage.removeItem("cart");
+}
+
+export function itemsInCart(): number {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    return cart.length;
 }
